@@ -1,0 +1,27 @@
+###update version
+systemctl status jenkins
+
+# backup jenkins
+cd /usr/share/jenkins  
+cp jenkins.war /home/adminjenkins/old.jenkins.war
+
+# stop jenkins 
+sudo systemctl stop jenkins
+
+# download latest version
+wget http://updates.jenkins-ci.org/latest/jenkins.war
+
+#update
+sudo cp jenkins.war /usr/share/jenkins/
+sudo systemctl start jenkins
+
+###jenkins LTS
+https://pkg.jenkins.io/debian-stable/
+
+This is the Debian package repository of Jenkins to automate installation and upgrade. To use this repository, first add the key to your system:
+
+wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+
+Then add the following entry in your /etc/apt/sources.list:
+
+deb https://pkg.jenkins.io/debian-stable binary/
