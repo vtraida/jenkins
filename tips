@@ -30,3 +30,27 @@ deb https://pkg.jenkins.io/debian-stable binary/
 insrall plugin - https://plugins.jenkins.io/role-strategy
 Enables user authorization using a Role-Based strategy. 
 Roles can be defined globally or for particular jobs or nodes selected by regular expressions
+
+Global Roles vs. Project Roles
+It should be noted that the Global Roles override anything you specify in the Project Roles.
+ That is, when you give a role the right to Job-Read in the Global Roles, 
+ then this role is allowed to read all Jobs, no matter what you specify in the Project Roles.
+
+
+It may therefore be advisable to leave most (all) options unchecked in Job, Run and SCM in the Global Roles
+ section for normal users.
+
+There's nothing much to say here, this is self-explanatory. 
+The only tricky field is the Pattern one. This field consists in a regular expression 
+aimed at matching the full name (including the folder name, if you're using Cloudbees Folders 
+Plugin) of the jobs which the role will apply to. For example, if you set the field 
+to "Roger-.*", then the role will match all jobs which name starts with "Roger-". 
+Note that the pattern is case-sensitive. To perform a case-insensitive match, 
+use (?i) notation: upper, "Roger-.*" vs. lower, "roger-.*" vs. case-insensitive, 
+"(?i)roger-.*". If you have a nested folder structure where you want to provide the
+ particular access to the second folder (or deeper), consider having a two-level security 
+ structure as well (Say you want to provide exclusive write/ modify type access to foo/bar
+  and not everything else under "foo": First, assign that user/ group to read/ discover 
+  permissions with pattern " ^foo.* ", then assign that same user/ group to the more
+   particular permissions with pattern " ^foo/bar.* " - Similar to what you'd do in 
+   a Unix/ Linux environment.
